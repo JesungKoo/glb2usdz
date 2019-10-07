@@ -76,7 +76,7 @@ const { exec } = require('child_process');
 const app = express();
 
 app.post('/', (req, res) => {
-  exec('sh gltf2usdz.sh');
+  exec('sh glb2usdz.sh');
   res.send("Done!");
 });
 ```
