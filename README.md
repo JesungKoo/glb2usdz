@@ -1,4 +1,4 @@
-# GLTF TO USDZ
+# GLB TO USDZ
 
 ## 목표
 
