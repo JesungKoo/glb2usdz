@@ -7,7 +7,7 @@ const port = 3000;
 app.get('/', (req, res) => res.render('index.ejs'));
 
 app.post('/', (req, res) => {
-  exec('sh gltf2usdz.sh');
+  exec('sh glb2usdz.sh');
   res.send("Done!");
 });
 
