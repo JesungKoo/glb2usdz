@@ -1,0 +1,19 @@
+{
+  "name": "gltf2usdz",
+  "version": "1.0.0",
+  "description": "Convert gltf to usdz",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "example.com"
+  },
+  "author": "Jesung Koo",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^2.7.1",
+    "express": "^4.17.1"
+  }
+}
