@@ -5,9 +5,21 @@
   <title>Document</title>
 </head>
 <body>
-  <h1>Hello, World!</h1>
+  <h1><%= this.message %></h1>
   <form method="post" class="convert">
-    <button type="submit">Convert!</button>
+    <div class="convert">
+      <label for="x">Enter length of X: </label>
+      <input type="text" name="x" id="x" placeholder="60" value="60" required>
+    </div>
+    <div class="convert">
+      <label for="y">Enter length of Y: </label>
+      <input type="text" name="y" id="y" placeholder="40" value="40" required>
+    </div>
+    <div class="convert">
+      <label for="z">Enter length of Z: </label>
+      <input type="text" name="z" id="z" placeholder="35" value="35" required>
+    </div>
+    <button type="submit">Create!</button>
   </form>
 </body>
 </html>

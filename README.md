@@ -2,12 +2,13 @@
 
 ## 목표
 
-FE 화면에서 버튼 클릭시, GLB 파일이 생성된다(미구현). 이때, 생성된 GLB를 POST 요청에 따라 USDZ로 변환하는 기능을 구현한다.
+FE 화면에서 버튼 클릭시, GLB/GLTF 파일이 생성된다. 이때, 생성된 GLB를 POST 요청에 따라 USDZ로 변환하는 기능을 구현한다.
 
 ## 필요 기술
 
 * Node.js
 * Express.js
+* [THREE.js](https://threejs.org)
 * Shell Scripting
 * [Apple usdzconvert library](https://developer.apple.com/download/more/?=USDPython) --> 이 파일을 받아서 레포지토리 폴더에 넣어야함.
 
@@ -81,7 +82,7 @@ app.post('/', (req, res) => {
 });
 ```
 
-`gltf2usdz.sh` 파일은 다음과 같이 구성되어 있다.
+`glb2usdz.sh` 파일은 다음과 같이 구성되어 있다.
 
 ```bash
 #!/bin/sh
@@ -92,10 +93,17 @@ export PYTHONPATH=$PYTHONPATH:$BASEPATH/USD/lib/python
 usdzconvert ../model.glb ../model.usdz
 ```
 
-루트 디렉토리의 `model.glb`를 `model.usdz`로 바꾸는데 성공하였다.
+루트 디렉토리의 `model.glb`를 `model.usdz`로 바꾸는데 성공.
 
 ### 추가 문제 발생
 
 1. Mac이 아니면 usdzconvert 사용 자체가 불가능하다면? 사실 이 모든게 꿈이라면? 그런데 그것이 실제로 일어났습니다. 현재 맥에서만 사용 가능한듯.
 2. 파일 이름에 대한 원칙이 필요하다. 실제 저장은 어떤 방식으로 할건지? 계속 사용자가 그걸 확인할 수 있게 하려면 사용자 정보가 있거나, 이름이 있거나 해야할 것 같은데.
 
+
+## 패치노트
+
+### 20191010
+
+* THREE.js 기반 테이블 목업 추가
+* gltf Exporter 테스트 완료 (테이블 목업으로 추출)
