@@ -1,26 +1,18 @@
 const express = require('express');
 const ejs = require('ejs');
-const { exec } = require('child_process');
+
 const app = express();
 const port = 8000;
 
+const tableRouter = require('./routers/table');
+const rootRouter = require('./routers/root');
+
 app.use(express.static('public'));
+
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
-  res.render('index', { message: '??' });
+app.use('/', rootRouter);
+app.use('/table', tableRouter);
 
-});
-
-app.post('/', (req, res) => {
-  // exec('sh glb2usdz.sh');
-  // console.log(req);
-  res.render('model');
-});
-
-app.get('/table', (req, res) => {
-  res.render('table');
-});
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`App on ${port}!`));

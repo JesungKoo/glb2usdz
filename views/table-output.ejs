@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Table</title>
+  <style>
+    body { margin: 0; }
+    canvas { width: 100%; height: 100% }
+  </style>
+</head>
+<body>
+  <script src="/js/es6-promise.min.js"></script>
+  <script src="/js/es6-promise.auto.min.js"></script>
+  <script src="/js/three.min.js"></script>
+  <script src="/js/OrbitControls.js"></script>
+  <script src="/js/GLTFExporter.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.25,
+      100
+    );
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const OC = new THREE.OrbitControls(camera, renderer.domElement);
+
+    // init camera
+    // camera.position.set(-2,2,5);
+    camera.position.set(0,5,10);
+    scene.add(camera);
+
+    // init renderer
+    renderer.gammaOutput = true;
+    renderer.gammaFactor = 2.2;
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild( renderer.domElement );
+
+    // init control
+    OC.maxDistance = 15;
+    OC.minDistance = 2;
+    OC.target.set(0, 1, 0);
+    // OC.target.set(0,0,0);
+    OC.enableZoom = true;
+    OC.enableDamping = true;
+    OC.enablePan = false;
+    OC.dampingFactor = 0.15;
+    OC.rotateSpeed = 0.4;
+
+    //init light
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    scene.add(ambientLight);
+    // 모델 비추기 위한 포인트 라이트 3개 설정
+    const light1 = new THREE.PointLight(0xffffff, 0.5, 0, 2);
+    const light2 = new THREE.PointLight(0xffffff, 0.5, 0, 2);
+    const light3 = new THREE.PointLight(0xffffff, 0.5, 0, 2);
+
+    light1.position.set(0, 18.56, -24);
+    light2.position.set(20.7846, 18.56, -12);
+    light3.position.set(-20.7846, 18.56, 12);
+    scene.add(light1);
+    scene.add(light2);
+    scene.add(light3);    
+
+
+    // Table Constants TODO: Make into variables and use user input
+
+    // const tableTopColor = 0x101010; // Gray..kindof 
+    const tableTopColor = 0x000000;
+    const tableTopWidth = 0.55; // 가로, 55cm, 21 5/8 inch, x
+    const tableTopLength = 0.55; // 세로, 55cm, 21 5/8 inch, z
+    const tableTopThickness = 0.05; // 두께 5cm, y
+
+    const tableLegColor = 0x000000; // Black
+    const tableLegWidth = 0.05; // 정사각형일 경우 두께와 같음, x
+    const tableLegHeight = 0.4; // 높이, 40cm (45cm - 상판 두께 5cm) , y
+    const tableLegThickness = 0.05; // 두께 5cm, z
+    const tableLegPositionWidth = (tableTopWidth - tableLegThickness)/2;
+    const tableLegPositionLength = (tableTopLength - tableLegThickness)/2;
+    const tableLegPositionHeight = 0.2;
+
+
+    const tableTopGeometry = new THREE.BoxBufferGeometry(tableTopWidth, tableTopThickness, tableTopLength);
+    const tableTopMaterial = new THREE.MeshStandardMaterial( { color: tableTopColor } );
+    const tableTop = new THREE.Mesh( tableTopGeometry, tableTopMaterial );
+    tableTop.position.set(0, tableLegHeight + tableTopThickness/2, 0);
+
+    const tableLegGeometry = new THREE.BoxBufferGeometry( tableLegWidth, tableLegHeight, tableLegThickness);
+    const tableLegMaterial = new THREE.MeshStandardMaterial( {color: tableLegColor} );
+    const tableLeg1 = new THREE.Mesh( tableLegGeometry, tableLegMaterial);
+    tableLeg1.position.set(-tableLegPositionWidth, tableLegPositionHeight, tableLegPositionWidth);
+    const tableLeg2 = new THREE.Mesh( tableLegGeometry, tableLegMaterial);
+    tableLeg2.position.set(tableLegPositionWidth, tableLegPositionHeight, tableLegPositionWidth);
+    const tableLeg3 = new THREE.Mesh( tableLegGeometry, tableLegMaterial);
+    tableLeg3.position.set(tableLegPositionWidth, tableLegPositionHeight, -tableLegPositionWidth);
+    const tableLeg4 = new THREE.Mesh( tableLegGeometry, tableLegMaterial);
+    tableLeg4.position.set(-tableLegPositionWidth, tableLegPositionHeight, -tableLegPositionWidth);
+
+    const table = new THREE.Object3D();
+    table.add(tableTop,tableLeg1,tableLeg2,tableLeg3,tableLeg4);
+    table.scale.set(3.6,3.6,3.6);
+    scene.add(table);
+    scene.background = new THREE.Color(0xe2e2e2);
+
+    const exporter = new THREE.GLTFExporter();
+    exporter.parse(table, (gltf) => {
+      // saveJSON(gltf, 'model.gltf');
+      console.log(gltf);
+    }, {'binary': false});
+
+
+    function animate() {
+      requestAnimationFrame( animate );
+      OC.update();
+      renderer.render( scene, camera );
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function saveJSON(data, filename){
+
+      if(!data) {
+          console.error('No data')
+          return;
+      }
+
+      if(!filename) filename = 'console.json'
+
+      if(typeof data === "object"){
+          data = JSON.stringify(data, undefined, 4)
+      }
+
+      var blob = new Blob([data], {type: 'text/json'}),
+          e    = document.createEvent('MouseEvents'),
+          a    = document.createElement('a')
+
+      a.download = filename
+      a.href = window.URL.createObjectURL(blob)
+      a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
+      e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      a.dispatchEvent(e)
+    }
+
+    window.addEventListener('resize', onWindowResize, false);
+    animate();
+  </script>
+</body>
+</html>

@@ -2,158 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Table</title>
-  <style>
-    body { margin: 0; }
-    canvas { width: 100%; height: 100% }
-  </style>
+  <title>Document</title>
 </head>
 <body>
-  <script src="/js/es6-promise.min.js"></script>
-  <script src="/js/es6-promise.auto.min.js"></script>
-  <script src="/js/three.min.js"></script>
-  <script src="/js/OrbitControls.js"></script>
-  <script src="/js/GLTFExporter.js"></script>
-  <script>
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      0.25,
-      100
-    );
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    const OC = new THREE.OrbitControls(camera, renderer.domElement);
-
-    let object;
-
-
-    // init camera
-    // camera.position.set(-2,2,5);
-    camera.position.set(0,0,10);
-    scene.add(camera);
-
-    // init renderer
-    renderer.gammaOutput = true;
-    renderer.gammaFactor = 2.2;
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild( renderer.domElement );
-
-    // init control
-    OC.maxDistance = 15;
-    OC.minDistance = 2;
-    OC.target.set(0, 0.2, 0);
-    // OC.target.set(0,0,0);
-    OC.enableZoom = true;
-    OC.enableDamping = true;
-    OC.enablePan = false;
-    OC.dampingFactor = 0.15;
-    OC.rotateSpeed = 0.4;
-
-    //init light
-    var ambientLight = new THREE.AmbientLight(0xffffff, 1);
-    scene.add(ambientLight);
-    // 모델 비추기 위한 포인트 라이트 3개 설정
-    var light1 = new THREE.PointLight(0xffffff, 0.5, 0, 2);
-    var light2 = new THREE.PointLight(0xffffff, 0.5, 0, 2);
-    var light3 = new THREE.PointLight(0xffffff, 0.5, 0, 2);
-
-    light1.position.set(0, 18.56, -24);
-    light2.position.set(20.7846, 18.56, -12);
-    light3.position.set(-20.7846, 18.56, 12);
-    scene.add(light1);
-    scene.add(light2);
-    scene.add(light3);    
-
-    var tableTopGeometry = new THREE.BoxBufferGeometry( 0.55, 0.04, 0.55 );
-    var tableTopMaterial = new THREE.MeshStandardMaterial( { color: 0x101010 } );
-    var tableTop = new THREE.Mesh( tableTopGeometry, tableTopMaterial );
-    tableTop.scale.set(3.6,3.6,3.6);
-    tableTop.position.set(0, 0.9, 0);
-    // scene.add( tableTop );
-
-    tableLegPositionWidth = 0.92;
-    tableLegPositionHeight = 0.108;
-
-    const tableLeg1Geometry = new THREE.BoxBufferGeometry( 0.04, 0.40, 0.04);
-    const tableLeg1Material = new THREE.MeshStandardMaterial( {color: 0x000000} );
-    const tableLeg1 = new THREE.Mesh( tableLeg1Geometry, tableLeg1Material);
-    tableLeg1.scale.set(3.6,3.6,3.6);
-    tableLeg1.position.set(-tableLegPositionWidth, tableLegPositionHeight, tableLegPositionWidth);
-    // scene.add(tableLeg1);
-
-    const tableLeg2Geometry = new THREE.BoxBufferGeometry( 0.04, 0.40, 0.04);
-    const tableLeg2Material = new THREE.MeshStandardMaterial( {color: 0x000000} );
-    const tableLeg2 = new THREE.Mesh( tableLeg2Geometry, tableLeg2Material);
-    tableLeg2.scale.set(3.6,3.6,3.6);
-    tableLeg2.position.set(tableLegPositionWidth, tableLegPositionHeight, tableLegPositionWidth);
-    // scene.add(tableLeg2);
-
-    const tableLeg3Geometry = new THREE.BoxBufferGeometry( 0.04, 0.40, 0.04);
-    const tableLeg3Material = new THREE.MeshStandardMaterial( {color: 0x000000} );
-    const tableLeg3 = new THREE.Mesh( tableLeg3Geometry, tableLeg3Material);
-    tableLeg3.scale.set(3.6,3.6,3.6);
-    tableLeg3.position.set(tableLegPositionWidth, tableLegPositionHeight, -tableLegPositionWidth);
-    // scene.add(tableLeg3);
-
-    const tableLeg4Geometry = new THREE.BoxBufferGeometry( 0.04, 0.40, 0.04);
-    const tableLeg4Material = new THREE.MeshStandardMaterial( {color: 0x000000} );
-    const tableLeg4 = new THREE.Mesh( tableLeg4Geometry, tableLeg4Material);
-    tableLeg4.scale.set(3.6,3.6,3.6);
-    tableLeg4.position.set(-tableLegPositionWidth, tableLegPositionHeight, -tableLegPositionWidth);
-    // scene.add(tableLeg4);
-
-    const table = new THREE.Object3D();
-    table.add(tableTop,tableLeg1,tableLeg2,tableLeg3,tableLeg4);
-    scene.add(table);
-    scene.background = new THREE.Color(0xe2e2e2);
-
-    const exporter = new THREE.GLTFExporter();
-    exporter.parse(table, (gltf) => {
-      // saveJSON(gltf, 'model.gltf');
-      console.log(gltf);
-    }, {'binary': false});
-
-
-    function animate() {
-      requestAnimationFrame( animate );
-      OC.update();
-      renderer.render( scene, camera );
-    }
-
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    function saveJSON(data, filename){
-
-    if(!data) {
-        console.error('No data')
-        return;
-    }
-
-    if(!filename) filename = 'console.json'
-
-    if(typeof data === "object"){
-        data = JSON.stringify(data, undefined, 4)
-    }
-
-    var blob = new Blob([data], {type: 'text/json'}),
-        e    = document.createEvent('MouseEvents'),
-        a    = document.createElement('a')
-
-    a.download = filename
-    a.href = window.URL.createObjectURL(blob)
-    a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
-    e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-    a.dispatchEvent(e)
-}
-
-    window.addEventListener('resize', onWindowResize, false);
-    animate();
-  </script>
+  <h1>Let's make table</h1>
+  <form method="post" class="convert">
+    <div class="convert">
+      <label for="x">Enter length of X: </label>
+      <input type="text" name="x" id="x" placeholder="60" value="60" required>
+    </div>
+    <div class="convert">
+      <label for="y">Enter length of Y: </label>
+      <input type="text" name="y" id="y" placeholder="40" value="40" required>
+    </div>
+    <div class="convert">
+      <label for="z">Enter length of Z: </label>
+      <input type="text" name="z" id="z" placeholder="35" value="35" required>
+    </div>
+    <button type="submit">Create!</button>
+  </form>
 </body>
 </html>

@@ -6,8 +6,9 @@ FE 화면에서 버튼 클릭시, GLB/GLTF 파일이 생성된다. 이때, 생�
 
 ## 필요 기술
 
-* Node.js
-* Express.js
+* [Node.js](https://nodejs.org)
+* [Express.js](https://expressjs.com)
+* [EJS](https://ejs.co)
 * [THREE.js](https://threejs.org)
 * Shell Scripting
 * [Apple usdzconvert library](https://developer.apple.com/download/more/?=USDPython) --> 이 파일을 받아서 레포지토리 폴더에 넣어야함.
