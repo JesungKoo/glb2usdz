@@ -1,12 +1,14 @@
 const express = require('express');
+const bodyParser = require('body-parser'); 
 const ejs = require('ejs');
-
-const app = express();
-const port = 8000;
 
 const tableRouter = require('./routers/table');
 const rootRouter = require('./routers/root');
 
+const app = express();
+const port = 8000;
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.set('views', './views');

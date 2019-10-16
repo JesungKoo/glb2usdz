@@ -108,3 +108,8 @@ usdzconvert ../model.glb ../model.usdz
 
 * THREE.js 기반 테이블 목업 추가
 * gltf Exporter 테스트 완료 (테이블 목업으로 추출)
+
+### 20191016
+
+* Router 분리 작업(지난 커밋)
+* body-parser 이용해서 POST Request 대로 모델 생성 TODO: express 내장 body-parser로 할 수 있도록 처리하기
