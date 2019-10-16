@@ -8,16 +8,24 @@
   <h1>Let's make table</h1>
   <form action="/table/output" method="post" class="convert">
     <div class="convert">
-      <label for="x">Enter length of X: </label>
+      <label for="x">Enter table width: </label>
       <input type="text" name="x" id="x" placeholder="60" value="60" required>
     </div>
     <div class="convert">
-      <label for="y">Enter length of Y: </label>
+      <label for="y">Enter table length: </label>
       <input type="text" name="y" id="y" placeholder="40" value="40" required>
     </div>
     <div class="convert">
-      <label for="z">Enter length of Z: </label>
+      <label for="z">Enter table height: </label>
       <input type="text" name="z" id="z" placeholder="35" value="35" required>
+    </div>
+    <div class="convert">
+      <label for="topThickness">Enter table top thickness: </label>
+      <input type="text" name="topThickness" id="topThickness" placeholder="5" value="5" required>
+    </div>
+    <div class="convert">
+      <label for="legThickness">Enter table leg thickness: </label>
+      <input type="text" name="legThickness" id="legThickness" placeholder="5" value="5" required>
     </div>
     <button type="submit">Create!</button>
   </form>

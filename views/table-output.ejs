@@ -70,12 +70,12 @@
     const tableTopColor = 0x000000;
     const tableTopWidth = <%= table.x/100 %>; // 가로, 55cm, 21 5/8 inch, x
     const tableTopLength = <%= table.y/100 %>; // 세로, 55cm, 21 5/8 inch, z
-    const tableTopThickness = 0.05; // 두께 5cm, y
+    const tableTopThickness = <%= table.topThickness/100 %>; // 두께 5cm, y
 
     const tableLegColor = 0x000000; // Black
     const tableLegWidth = 0.05; // 정사각형일 경우 두께와 같음, x
     const tableLegHeight = <%= table.z/100 %> - tableTopThickness; // 높이, 40cm (45cm - 상판 두께 5cm) , y
-    const tableLegThickness = 0.05; // 두께 5cm, z
+    const tableLegThickness = <%= table.legThickness/100 %>; // 두께 5cm, z
     const tableLegPositionWidth = (tableTopWidth - tableLegThickness)/2;
     const tableLegPositionLength = (tableTopLength - tableLegThickness)/2;
     const tableLegPositionHeight = tableLegHeight/2;
@@ -86,7 +86,7 @@
     const tableTop = new THREE.Mesh( tableTopGeometry, tableTopMaterial );
     tableTop.position.set(0, tableLegHeight + tableTopThickness/2, 0);
 
-    const tableLegGeometry = new THREE.BoxBufferGeometry( tableLegWidth, tableLegHeight, tableLegThickness);
+    const tableLegGeometry = new THREE.BoxBufferGeometry( tableLegThickness, tableLegHeight, tableLegThickness);
     const tableLegMaterial = new THREE.MeshStandardMaterial( {color: tableLegColor} );
     const tableLeg1 = new THREE.Mesh( tableLegGeometry, tableLegMaterial);
     tableLeg1.position.set(-tableLegPositionWidth, tableLegPositionHeight, tableLegPositionLength);
