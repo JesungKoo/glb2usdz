@@ -50,3 +50,4 @@ node app
 ### 20191017
 
 * add ar button in table output
+* add meta tags to table.ejs for responsive text
