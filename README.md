@@ -46,3 +46,7 @@ node app
 * separate router modules
 * add body-parser for handling POST request
 * move gltf exporter to server-side
+
+### 20191017
+
+* add ar button in table output
