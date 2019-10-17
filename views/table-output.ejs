@@ -5,10 +5,10 @@
   <title>Table</title>
   <style>
     body { margin: 0; }
-    canvas { width: 100%; height: 100% }
   </style>
 </head>
 <body>
+  
   <script src="/js/es6-promise.min.js"></script>
   <script src="/js/es6-promise.auto.min.js"></script>
   <script src="/js/three.min.js"></script>
@@ -18,7 +18,7 @@
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       45,
-      window.innerWidth / window.innerHeight,
+      window.innerWidth / (window.innerHeight*0.8),
       0.25,
       100
     );
@@ -34,7 +34,8 @@
     renderer.gammaOutput = true;
     renderer.gammaFactor = 2.2;
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth, (window.innerHeight*0.8));
+    console.log(renderer.domElement);
     document.body.appendChild( renderer.domElement );
 
     // init control
@@ -117,9 +118,9 @@
     }
 
     function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.aspect = window.innerWidth / (window.innerHeight*0.8);
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(window.innerWidth, (window.innerHeight*0.8));
     }
 
     function saveJSON(data, filename){
@@ -149,5 +150,10 @@
     window.addEventListener('resize', onWindowResize, false);
     animate();
   </script>
+  <center>
+    <a rel="ar" href="/model.usdz">
+      <img src="/img/view-in-ar.jpg" alt="view in ar button">
+    </a>
+  </center>
 </body>
 </html>

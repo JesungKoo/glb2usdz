@@ -35,7 +35,6 @@ router.route('/')
 
 router.route('/output')
   .get((req, res) => {
-    // exec('sh glb2usdz.sh');
     res.send('heelo');
   })
   .post((req, res) => {
@@ -48,6 +47,12 @@ router.route('/output')
     createTable(width, length, height, topT, legT);
     
     res.render('table-output', { table: req.body });
+    exec('sh glb2usdz.sh');
+  });
+
+router.route('/ar')
+  .get((req, res) => {
+    res.render('table-ar');
   });
 
 module.exports = router;
