@@ -13,11 +13,11 @@
   "author": "Jesung Koo",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "canvas": "^2.6.0",
     "commander": "^3.0.2",
     "ejs": "^2.7.1",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "three": "^0.109.0",
     "vblob": "^1.0.2"
   }
